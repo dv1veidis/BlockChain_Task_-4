@@ -44,8 +44,39 @@
           <tbody id="animalShop" class="animalShop">
         </table>
       </div>
+      <form onSubmit="App.buyAnimal(); return false;">
+        <div class="form-group">
+        <label for="animalSelect">Select animal</label>
+        <select class="form-control" id="animalSelect">
+        </select>
+        <button type="submit" class="btn btn-primary">Buy</button>
+      </div>
+      </form>
+      <p id="accountAddress" class="text-center"></p>
+    <div id ="userInfoTable" style="display: show;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">userId</th>
+            <th scope="col">balance</th>
+            <th scope="col">Bulldog count</th>
+            <th scope="col">Cat count</th>
+            <th scope="col">Hamster count</th>
+          </tr>
+        </thead>
+        <tbody id="userInfo" class="userInfo">
+      </table>
     </div>
-    <p id="accountAddress" class="text-center"></p>
+    <form onSubmit="App.sellAnimal(); return false;">
+      <div class="form-group">
+        <label for="animalSelectSell">Select animal</label>
+        <select class="form-control" id="animalSelectSell">
+        </select>
+        <button type="submit" class="btn btn-primary">Sell</button>
+      </div>
+    </form>
+    </div>
+    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
