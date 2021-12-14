@@ -26,9 +26,22 @@ App = {
     $.getJSON("Shop.json", function(shop){
       App.contracts.Shop = TruffleContract(shop);
       App.contracts.Shop.setProvider(App.web3Provider);
+      App.listenForEvents();
       return App.render();
     });
   },
+
+  listenForEvents:function(){
+    App.contracts.Shop.deployed().then(function(instance){
+      instance.transactionEvent({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event){
+        console.log("event triggered", event)
+        App.render();
+      })
+    })
+  } , 
   render: function() {
     var shopInstance;
     var loader = $("#loader");
@@ -50,6 +63,12 @@ App = {
     }).then(function(animalCount) {
       var animalShop = $("#animalShop");
       animalShop.empty();
+      var animalsSelect = $('#animalSelect');
+      animalsSelect.empty();
+      var userInfo=$('#userInfo');
+      userInfo.empty();
+      var animalSelectSell = $('#animalSelectSell');
+      animalSelectSell.empty();
       for(var i = 1; i <= animalCount; i++) {
         shopInstance.animals(i).then(function(animal) {
           var id = animal[0];
@@ -58,15 +77,56 @@ App = {
           var quantity = animal[3];
           var animalTemplate = "<tr><th>"+id+"</th><td>"+ name + "</td><td>" + price +"</td><td>"+quantity +"</td></tr>";
           animalShop.append(animalTemplate);
+
+          var animalOption = "<option value='"+id+"' >"+name+"</option>";
+          animalsSelect.append(animalOption);
+          animalSelectSell.append(animalOption);
         })
       }
+      shopInstance.users(App.account).then(function(user){
+        var userId = user[0];
+        var balance = user[1];
+        var bulldogCount=user[2];
+        var catCount=user[3];
+        var HamsterCount=user[4];
+        var userTemplate ="<tr><th>"+userId+"</th><td>"+ balance + "</td><td>" + bulldogCount +"</td><td>"+catCount +"</td> <td>"+HamsterCount+"</td></tr>";
+        userInfo.append(userTemplate);
+      })
+      return shopInstance.users(App.account);
+      
+    }).then(function(hasBought){
+      if(hasBought){
+        $('owned').show();
+      }
+
       loader.hide();
       content.show();
-    }).catch(function (error){
+    })
+    .catch(function (error){
       console.warn(error);
     })
   },
+  buyAnimal: function(){
+    var animalId=$('#animalSelect').val();
+    App.contracts.Shop.deployed().then(function(instance){
+      return instance.buy(animalId, {from: App.account});
+    }).then(function(result){
+      $("#content").show();
+      $("#loader").show();
+    }).catch(function(err){ console.log(err);})
+  },
+  sellAnimal: function(){
+    var animalId=$('#animalSelectSell').val();
+    App.contracts.Shop.deployed().then(function(instance){
+      return instance.sell(animalId, {from: App.account});
+    }).then(function(result){
+      $("#content").show();
+      $("#loader").show();
+    }).catch(function(err){ console.log(err);})
+  }
 };
+
+  
 
 $(function() {
   $(window).load(function() {
