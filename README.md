@@ -21,5 +21,6 @@ Mano tikslas buvo suprasti kaip veikia Smart kontraktai, kaip juos testuojame, k
 3. Tada nuėję į programos aplanką mes terminale parašome ```Truffle migrate ``` arba ``` Truffle migrate --reset```, kad atnaujinti smart contract logiką ir įkelti duomenis per naujo.
 4. Tada rašome ``` npm run dev``` ir einame http://localhost:3000/ kurioje yra naudotojo sąsaja
 5. Tada parsisiunčiame MetaMask ir į jį importuojame viena iš ganache paskyrų ir prijungiame prie svetainės
+6. Testuoti programą galime parašę ```Truffle test```
 
 
