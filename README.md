@@ -22,5 +22,6 @@ Mano tikslas buvo suprasti kaip veikia Smart kontraktai, kaip juos testuojame, k
 4. Tada rašome ``` npm run dev``` ir einame http://localhost:3000/ kurioje yra naudotojo sąsaja
 5. Tada parsisiunčiame MetaMask ir į jį importuojame viena iš ganache paskyrų ir prijungiame prie svetainės
 6. Testuoti programą galime parašę ```Truffle test```
+7. Prisijungiame per MetaMask prie localhost:7545 jei neturime sukuriama test net į šį adresą
 
 
